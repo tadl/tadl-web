@@ -2,20 +2,20 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" type="text/css" href="/css/holo-base-elements.css" />
-    <link rel="stylesheet" type="text/css" href="/css/holo-light-elements.css" />
-    <link rel="stylesheet" type="text/css" href="/css/holo-base-widgets.css" />
-    <link rel="stylesheet" type="text/css" href="/css/holo-light-widgets.css" />
-    <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <script type="text/javascript" src="/js/holo-touch.js"></script>
-    <script type="text/javascript" src="/js/jquery-1.10.0.min.js"></script>
-    <script type="text/javascript" src="/js/imagesloaded.pkgd.min.js"></script>
-    <script type="text/javascript" src="/js/handlebars.js"></script>
-    <script type="text/javascript" src="/js/jquery-barcode.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
-    <script type="text/javascript" src="/js/jquery.dateFormat-1.0.js"></script>
-    <script type="text/javascript" src="/js/jquery.history.js"></script>
-    <script type="text/javascript" src="/js/staterouter.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/holo-base-widgets.css" />
+    <link rel="stylesheet" type="text/css" href="css/holo-light-widgets.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <script type="text/javascript" src="js/holo-touch.js"></script>
+    <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
+    <script type="text/javascript" src="js/handlebars.js"></script>
+    <script type="text/javascript" src="js/jquery-barcode.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/jquery.dateFormat-1.0.js"></script>
+    <script type="text/javascript" src="js/jquery.history.js"></script>
+    <script type="text/javascript" src="js/staterouter.js"></script>
     <script>
 		document.addEventListener("deviceready", function() {
 		// before this event, window.open likely won't work properly
@@ -138,11 +138,11 @@ router
 <header class="holo-actionBar">
     <section class="searchform">
         <div style="width:100%;">
-            <button id="account" class="bigger right icon" onclick="openForm()"><img src="/img/account-button.png" alt="" width="25" height="25" /></button>
-            <a onclick="loadmenu()" class="panel"><img class="left logo pointer" src="/img/tinylines.png" width="30" height="30" alt="" /></a>
+            <button id="account" class="bigger right icon" onclick="openForm()"><img src="img/account-button.png" alt="" width="25" height="25" /></button>
+            <a onclick="loadmenu()" class="panel"><img class="left logo pointer" src="img/tinylines.png" width="30" height="30" alt="" /></a>
             <input class="search_box left" type="text" placeholder="Search..." id="term" />
             <button id="search" class="left biggerer">GO</button>
-            <button id="ssettings" class="left bigger" onclick="openSearch_options()"><img src="/img/settings-gear-black.png" alt="" width="25" height="25" /></button>
+            <button id="ssettings" class="left bigger" onclick="openSearch_options()"><img src="img/settings-gear-black.png" alt="" width="25" height="25" /></button>
         </div>
         <div class="clearfix"></div>
         <div id="search_options">
@@ -376,7 +376,7 @@ router
         {{#if node.image}}
             <img src="{{make_https node.image}}">
         {{else}}
-            <img src="/img/clocktower100.png">
+            <img src="img/clocktower100.png">
         {{/if}}
         </div><span style="font-size:1.3em;">{{node.title}}</span><br>
         <strong>{{node.event-date}} - {{node.location}}</strong><br>
@@ -425,7 +425,7 @@ router
                                 <img src="{{make_https picture}}">
                             {{/if}}
                         {{else}}
-                            <img src="/img/clocktower100.png">
+                            <img src="img/clocktower100.png">
                         {{/if}}
                         </div>
                         <span style="font-size:13px; font-style:italic;">{{description}}</span><br/>
