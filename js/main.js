@@ -85,7 +85,7 @@ function getResults() {
         var available = "false";
         var availablemsg = "";
     }
-    var newstate = '/search/'+searchquery+'/'+mediatype+'/'+available+'/'+loc; 
+    var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available+'/'+loc; 
     var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}
     History.pushState(action, psTitle + "Search", newstate); 
     $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
@@ -148,7 +148,7 @@ function showfeatured() {
     cleanhouse();
     $('#search-params').empty();
     var action = {action:"showfeatured"}
-    History.pushState(action, "Featured Items", "/featured");
+    History.pushState(action, "Featured Items", "featured");
     state = History.getState();
     if (state.data.action === "showfeatured") {
         $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
@@ -170,7 +170,7 @@ function showfeatured() {
 function viewitem(record_id) {
     cleanhouse();
     var action = {action:"viewitem", record_id:record_id}
-    var newstate = '/item/' + record_id;
+    var newstate = 'item/' + record_id;
     History.pushState(action, 'Featured Item ' + record_id, newstate);
     state = History.getState();
     $('.load_more').show();
@@ -342,7 +342,7 @@ function render_dash(data) {
 function showcheckouts() { 
     cleanhouse();
     var action = {action:"showcheckouts"}
-    History.pushState(action, "Your Checkedout Items", "/checkout");   
+    History.pushState(action, "Your Checkedout Items", "checkout");   
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = window.localStorage.getItem('username');
@@ -381,7 +381,7 @@ function cancelhold(hold_id) {
 function showholds() {
     cleanhouse();
     var action = {action:"showholds"}
-    History.pushState(action, "Your Holds", "/holds"); 
+    History.pushState(action, "Your Holds", "holds"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = window.localStorage.getItem('username');
@@ -401,7 +401,7 @@ function showholds() {
 function showpickups() {
     cleanhouse();
     var action = {action:"showpickups"}
-    History.pushState(action, "Ready for Pickup", "/pickup"); 
+    History.pushState(action, "Ready for Pickup", "pickup"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
     var username = window.localStorage.getItem('username');
@@ -452,7 +452,7 @@ function getsearch(query, mt, avail, location) {
 function showcard() {
     cleanhouse();
     var action = {action:"showcard"}
-    History.pushState(action, "Your Card", "/card"); 
+    History.pushState(action, "Your Card", "card"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = window.localStorage.getItem('username');
@@ -471,7 +471,7 @@ function showcard() {
 function showevents() { 
     cleanhouse();
     var action = {action:"showevents"}
-    History.pushState(action, "Upcoming Event", "/events"); 
+    History.pushState(action, "Upcoming Event", "events"); 
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -488,7 +488,7 @@ function showevents() {
 function showlocations() { 
     cleanhouse();
     var action = {action:"showlocations"}
-    History.pushState(action, "Locations", "/locations"); 
+    History.pushState(action, "Locations", "locations"); 
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -506,7 +506,7 @@ function showlocations() {
 function showfeaturednews() { 
     cleanhouse();
     var action = {action:"showfeaturednews"}
-    History.pushState(action, "Featured News", "/featurednews"); 
+    History.pushState(action, "Featured News", "featurednews"); 
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -525,7 +525,7 @@ function showmain() {
     cleanhouse();
     $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="clearfix"></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
     var action = {action:"showmain"}
-    History.pushState(action,  psTitle + "Search and Explore", "/");
+    History.pushState(action,  psTitle + "Search and Explore", "");
     state = History.getState();
     $('.mainlinks').html('<a onclick="showfeatured();" class="button">Featured</a><br/><a onclick="showlocations();" class="button">Locations</a><br/><a onclick="showevents();" class="button">Events</a><br/><a onclick="facebookfeed();" class="button">Facebook</a><br/><a class="button" href="http://www.tadl.org/?nomobi=true">Full Site</a>');
     $('#results').show();
@@ -535,7 +535,7 @@ function showmain() {
 function facebookfeed() { 
     cleanhouse();
     var action = {action:"facebookfeed"}
-    History.pushState(action, "Facebook Feed", "/facebook"); 
+    History.pushState(action, "Facebook Feed", "facebook"); 
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
