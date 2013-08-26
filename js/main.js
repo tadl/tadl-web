@@ -3,6 +3,7 @@ var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually use https here also */
 var FEATURED_URL = 'https://www.tadl.org/mobile/export/items/json/featured'
 var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
+var NEWS_URL = 'https://www.tadl.org/export/news/json'
 var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
@@ -506,11 +507,11 @@ function showlocations() {
 function showfeaturednews() { 
     cleanhouse();
     var action = {action:"showfeaturednews"}
-    History.pushState(action, "Featured News", "featurednews"); 
+    History.pushState(action, "Featured News", "featurednews");
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
-    $.getJSON("https://www.tadl.org/export/news/json", function(data) {
+    $.getJSON(NEWS_URL, function(data) {
         var template = Handlebars.compile($('#showfeaturednews-template').html());
         var info = template(data);
         $('.load_more').hide();
@@ -527,7 +528,7 @@ function showmain() {
     var action = {action:"showmain"}
     History.pushState(action,  psTitle + "Search and Explore", "");
     state = History.getState();
-    $('.mainlinks').html('<a onclick="showfeatured();" class="button">Featured</a><br/><a onclick="showlocations();" class="button">Locations</a><br/><a onclick="showevents();" class="button">Events</a><br/><a onclick="facebookfeed();" class="button">Facebook</a><br/><a class="button" href="http://www.tadl.org/?nomobi=true">Full Site</a>');
+    $('.mainlinks').html('');
     $('#results').show();
     setTimeout(login,1000);
 }
