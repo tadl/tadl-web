@@ -14,7 +14,7 @@ var platform = 'android';
 var version_id = '3';
 var pagecount = {}
 var state = {}
-
+var record_id = "";
 
 $(document).ready(function() {
     router.perform();
