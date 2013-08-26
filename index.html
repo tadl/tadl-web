@@ -25,6 +25,7 @@
 	<script>
     var BASE_URL = '/m/';
   	var router = new staterouter.Router();
+  
 // Configure routes
 router
   .route(BASE_URL, showmain)
@@ -44,6 +45,8 @@ router
   .route(BASE_URL + '#checkout', showcheckouts)
   .route(BASE_URL + 'featured', showfeatured)
   .route(BASE_URL + '#featured', showfeatured)
+  .route(BASE_URL + 'featurednews', showfeaturednews)
+  .route(BASE_URL + '#featurednews', showfeaturednews)
   .route(BASE_URL + 'search/:query/:mt/:avail/:location', getsearch)
   .route(BASE_URL + 'item/:record_id', viewitem(record_id))
   ;
@@ -121,6 +124,10 @@ router
             }
             if (state.data.action === "showcard") {
                 showcard();
+                $('#results').show();
+            }
+            if (state.data.action === "showfeaturednews") {
+                showfeaturednews();
                 $('#results').show();
             }
         }
@@ -307,6 +314,21 @@ router
     <div class="clearfix"></div>
     <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
 </script>
+
+
+<script id="showfeaturednews-template" type="text/template">
+    {{#nodes}}
+        <div class="shadow result pointer" onclick="unhide('{{node.nid}}')">
+        <img class="fb_img" src="{{node.image}}">
+        <h3 style="padding:0;margin:0;">{{{ node.title }}}</h3>
+        <span id="more{{ node.nid }}" class="viewmore">View More</span>
+        <span id="{{ node.nid }}" style="display:none;">
+        {{{ node.body }}}
+        </span>
+        </div>
+    {{/nodes}}
+</script>
+
 
 <script id="shelf-template" type="text/template">
     <table>
