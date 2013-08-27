@@ -257,10 +257,10 @@ router
 
 <script id="showfeaturednews-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result pointer" onclick="unhide('{{node.nid}}')">
-        <img class="fb_img" src="{{node.image}}">
-        <h3 style="padding:0;margin:0;">{{{ node.title }}}</h3>
-        <span id="more{{ node.nid }}" class="viewmore">View More</span>
+        <div class="shadow result">
+        <img class="fb_img pointer" src="{{node.image}}" onclick="unhide('{{node.nid}}')">
+        <h3 class="pointer" style="padding:0;margin:0;" onclick="unhide('{{node.nid}}')">{{{ node.title }}}</h3>
+        <span id="more{{ node.nid }}" class="viewmore pointer" onclick="unhide('{{node.nid}}')">View More</span>
         <span id="{{ node.nid }}" style="display:none;">
         {{{ node.body }}}
         </span>
