@@ -186,14 +186,34 @@ router
     {{/:items}}
 </script>
 
+<script id="showitemlist-template" type="text/template">
+    {{#nodes}}
+        <div class="shadow result">
+        <div onclick="showmore({{node.item}});" class="pointer">
+        <img class="result_img" onload="img_check(this);" onerror="img_error(this);" src="https://catalog.tadl.org/opac/extras/ac/jacket/large/r/{{node.item}}"/>
+        <span class="title">{{node.title}}</span><br/>
+        {{#if node.author}}
+            <span class="author">{{node.author}}</span>
+        {{/if}}
+        <div id="showmore-{{node.item}}" class="viewmore">more details</div>
+        </div>
+        <div id="{{node.item}}" style="display:none;"></div>
+        <div id="{{node.item}}-loading"></div> 
+        <div class="clearfix"></div>
+
+        </div>
+        </div>
+    {{/nodes}}
+</script>
+
 <script id="showreviews-template" type="text/template">
     {{#nodes}}
         <div class="shadow result">
         <div onclick="showmore({{node.record}});" style="cursor:pointer;">
         <img class="result_img" onload="img_check(this);" onerror="img_error(this);" src="http://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.record}}">
-        <span class="title"> {{node.title}}</span><br/>
+        <span class="title">{{node.title}}</span><br/>
         {{#if node.author}}
-            <span class="author">{{node.author}}, </span>
+            <span class="author">{{node.author}}</span>
         {{/if}}
         
             <div class="summary">Review by: {{node.reviewer}}
