@@ -49,6 +49,8 @@ router
 //  .route(BASE_URL + '#featurednews', showfeaturednews)
   .route(BASE_URL + 'search/:query/:mt/:avail/:location', getsearch)
   .route(BASE_URL + 'item/:record_id', viewitem)
+  .route(BASE_URL + 'reviews', showreviews)
+  .route(BASE_URL + 'reviews/:review_type', showreviews)
   ;
 </script>	
 <title>TADL Mobile Beta</title>
@@ -183,6 +185,33 @@ router
         </div>
     {{/:items}}
 </script>
+
+<script id="showreviews-template" type="text/template">
+    {{#nodes}}
+        <div class="shadow result">
+        <div onclick="showmore({{node.record}});" style="cursor:pointer;">
+        <img class="result_img" onload="img_check(this);" onerror="img_error(this);" src="http://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.record}}">
+        <span class="title"> {{node.title}}</span><br/>
+        {{#if node.author}}
+            <span class="author">{{node.author}}, </span>
+        {{/if}}
+        
+            <div class="summary">Review by: {{node.reviewer}}
+            </br>
+            
+            {{{node.body}}} </div>
+        
+        
+        <div id="showmore-{{node.record}}" class="viewmore">more details</div>
+        </div>
+        <div id="{{node.record}}" style="display:none;"></div>
+        <div id="{{node.record}}-loading"></div> 
+        <div class="clearfix"></div>
+        </div>
+    {{/nodes}}
+</script>
+
+
 
 <script id="more_details-template" type="text/template">
     {{#:items}}

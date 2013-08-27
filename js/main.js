@@ -529,6 +529,34 @@ function showlocations() {
     });
 }
 
+function showreviews(review_type) { 
+    cleanhouse();
+    var action = {action:"showreviews"}
+    var review_type = review_type;
+    if(review_type != undefined){
+    var newstate = 'reviews/'+review_type; 
+    }
+    else
+    {
+    var newstate = 'reviews/all'; 
+    }
+    History.pushState(action, "Reviews", newstate); 
+    state = History.getState();
+    $('.load_more').show();
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
+    $.getJSON('http://www.tadl.org/export/reviews/'+ review_type +'/json', function(data) {
+        var template = Handlebars.compile($('#showreviews-template').html());
+        var info = template(data);
+        $('.load_more').hide();
+        if (state.data.action === "showreviews") {
+            $('#results').html(info);
+        }
+    });
+}
+
+
+
+
 
 function showfeaturednews() { 
     cleanhouse();
