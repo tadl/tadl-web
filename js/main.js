@@ -7,18 +7,26 @@ var NEWS_URL = 'https://www.tadl.org/export/news/json'
 var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
-var loadingmoreText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="/img/ajax-loader-2.gif">LOADING...</span>';
-var logoutText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="/img/ajax-loader-2.gif">LOGGING OUT...</span>';
+var loadingmoreText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</span>';
+var logoutText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOGGING OUT...</span>';
 var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE RESULTS</a>';
 var psTitle = "TADL Mobile | ";
 var platform = 'web';
 var version_id = '0';
 var pagecount = {}
 var state = {}
+var linked_search = false;
 
 
 $(document).ready(function() {
-    router.perform();
+    var state = History.getState();
+    var check = state.data.action
+   
+   
+   
+   router.perform();
+  
+   
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) { getResults(); }
     });
@@ -70,13 +78,38 @@ function loadmore() {
     });
 }
 
+
+function getsearch(query, mt, avail, location) {
+    var searchquery = query;
+    var available = avail;
+    var mediatype = mt;
+    var loc = location;
+    linked_search = "true";
+    if (available === "true") {
+        $('#available').prop('checked', true);
+    } else {
+        $('#available').prop('checked', false);
+    }
+    $("#mediatype").val(decodeURIComponent(mt));
+    $("#term").val(decodeURIComponent(searchquery));
+    $("#location").val(decodeURIComponent(loc));
+    var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available+'/'+loc; 
+    var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc, state:newstate}
+    History.pushState(action, psTitle + "Search", newstate);
+    
+    getResults();
+    
+}
+
+
+
 function getResults() {      
     cleanhouse();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     pagecount = 0;
-    var searchquery = $('#term').val();
-    var mediatype = $('#mediatype').val();
+    var searchquery = encodeURIComponent($('#term').val());
+    var mediatype = encodeURIComponent($('#mediatype').val());
     var loc = $('#location').val();
     loctext = document.getElementById("location").options[document.getElementById('location').selectedIndex].text;
     if (document.getElementById('available').checked) {
@@ -87,12 +120,16 @@ function getResults() {
         var availablemsg = "";
     }
     var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available+'/'+loc; 
-    var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}
-    History.pushState(action, psTitle + "Search", newstate); 
+    if (linked_search != "true"){
+    var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc, state:newstate}
+    History.pushState(action, psTitle + "Search", newstate);
+    }
+     
     $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
         var results = data.message;
         state = History.getState();
-        if (state.data.action === "getsearch" && state.data.query === searchquery && state.data.mt === mediatype && state.data.avail === available && state.data.location === loc) {
+        linked_search = "false";
+        if (state.data.state === newstate) {
             if (results != "no results") {
                 var template = Handlebars.compile($('#results-template').html());
                 var info = template(data);
@@ -104,7 +141,7 @@ function getResults() {
                 $('#results').html("No Results");
                 $('.load_more').hide();
             }
-        }
+      } 
     });
 }
 
@@ -170,9 +207,6 @@ function showfeatured() {
 
 function viewitem(record_id) {
     cleanhouse();
-    var action = {action:"viewitem", record_id:record_id}
-    var newstate = 'item/' + record_id;
-    History.pushState(action, 'Featured Item ' + record_id, newstate);
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -184,6 +218,13 @@ function viewitem(record_id) {
             $('#'+ record_id).css('display', 'block');
         }
     });
+}
+
+function loaditem(record_id) {    
+    var record_id = record_id;
+    var action = {action:"viewitem", record_id:record_id}
+    var newstate = 'item/' + record_id;
+    History.pushState(action, 'Featured Item ' + record_id, newstate);
 }
 
 function unhide(eventId) {
@@ -434,21 +475,6 @@ function renew(element, circulation_id, barcode) {
     });
 }
 
-function getsearch(query, mt, avail, location) {
-    var query = query;
-    var avail = avail;
-    var mt = mt;
-    var loc = location;
-    if (avail === "true") {
-        $('#available').prop('checked', true);
-    } else {
-        $('#available').prop('checked', false);
-    }
-    $("#mediatype").val(decodeURIComponent(mt));
-    $("#term").val(decodeURIComponent(query));
-    $("#location").val(decodeURIComponent(loc));
-    getResults();
-}
 
 function showcard() {
     cleanhouse();

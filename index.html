@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -47,91 +48,9 @@ router
   .route(BASE_URL + 'featurednews', showfeaturednews)
 //  .route(BASE_URL + '#featurednews', showfeaturednews)
   .route(BASE_URL + 'search/:query/:mt/:avail/:location', getsearch)
-  .route(BASE_URL + 'item/:record_id', viewitem(record_id))
+  .route(BASE_URL + 'item/:record_id', viewitem)
   ;
 </script>	
-
-   <script>
-    document.addEventListener("deviceready", function() {
-        // before this event, window.open likely won't work properly
-    }, false);
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-        document.addEventListener("backbutton", onBackKeyDown, false);
-    }
-    function onBackKeyDown() {
-        var state = History.getState();
-        $('#results').hide();
-        if (state.data.action === "showmain") {
-            navigator.app.exitApp();
-        } else {   
-            History.back();
-        }
-    }
-    
-    window.onpopstate = function(event) {
-        if (!event.state) return;
-        $('#results').hide();
-        state = History.getState();
-        var message = JSON.stringify(event.state);
-        window.setTimeout(goBack,50); 
-        function goBack() {
-            if (state.data.action === "showholds") {
-                showholds();
-                $('#results').show();
-            }
-            if (state.data.action === "showfeatured") {
-                showfeatured();
-                $('#results').show();
-            }
-            if (state.data.action === "showcheckouts") {
-                showcheckouts();
-                $('#results').show();
-            }
-            if (state.data.action === "showpickups") {
-                showpickups();
-                $('#results').show();
-            }
-            if (state.data.action === "showfeatured") {
-                showfeatured();
-                $('#results').show();
-            }
-            if (state.data.action === "showevents") {
-                showevents();
-                $('#results').show();
-            }
-            if (state.data.action === "showlocations") {
-                showlocations();
-                $('#results').show();
-            }
-            if (state.data.action === "facebookfeed") {
-                facebookfeed();
-                $('#results').show();
-            }
-            if (state.data.action === "viewitem") {
-                viewitem(state.data.record_id);
-                $('#results').show();
-            }
-            if (state.data.action === "showmain") {
-                showmain();
-                $('#results').show();
-            }
-            if (state.data.action === "getsearch") {
-                getsearch(state.data.query, state.data.mt, state.data.avail, state.data.location);
-                getResults();
-                $('#results').show();
-            }
-            if (state.data.action === "showcard") {
-                showcard();
-                $('#results').show();
-            }
-            if (state.data.action === "showfeaturednews") {
-                showfeaturednews();
-                $('#results').show();
-            }
-        }
-    }
-</script>
 <title>TADL Mobile Beta</title>
 </head>
 <body>
@@ -193,7 +112,7 @@ router
 
 <script id="featured-template" type="text/template">
     {{#nodes}}
-        <img onclick="viewitem({{node.item}});return false;" onerror="this.style.display='none';" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" />
+        <img onclick="loaditem({{node.item}});return false;" onerror="this.style.display='none';" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" />
     {{/nodes}}
 </script>
 
