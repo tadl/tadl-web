@@ -529,6 +529,28 @@ function showlocations() {
     });
 }
 
+function showitemlist(list_id) {
+    cleanhouse();
+    var action = {action:"showitemlist"}
+    if (list_id != undefined) {
+        var newstate = "items/" + list_id;
+    } else {
+        var newstate = "items/all";
+    }
+    History.pushState(action, "Featured Items", newstate);
+    state = History.getState();
+    $('.load_more').show();
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
+    $.getJSON('https://www.tadl.org/mobile/export/items/' + list_id + '/json', function(data) {
+        var template = Handlebars.compile($('#showitemlist-template').html());
+        var info = template(data);
+        $('.load_more').hide();
+        if (state.data.action === "showitemlist") {
+            $('#results').html(info);
+        }
+    });
+}
+
 function showreviews(review_type) { 
     cleanhouse();
     var action = {action:"showreviews"}
@@ -544,7 +566,7 @@ function showreviews(review_type) {
     state = History.getState();
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
-    $.getJSON('http://www.tadl.org/export/reviews/'+ review_type +'/json', function(data) {
+    $.getJSON('https://www.tadl.org/export/reviews/'+ review_type +'/json', function(data) {
         var template = Handlebars.compile($('#showreviews-template').html());
         var info = template(data);
         $('.load_more').hide();
