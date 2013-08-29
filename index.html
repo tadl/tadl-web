@@ -51,9 +51,13 @@ router
   .route(BASE_URL + 'featured', showfeatureditembox)
   .route(BASE_URL + '#featurednews', showfeaturednews)
   .route(BASE_URL + 'featurednews', showfeaturednews)
+  .route(BASE_URL + '#search/:query/:mt/:avail/:location', getsearch)
   .route(BASE_URL + 'search/:query/:mt/:avail/:location', getsearch)
+  .route(BASE_URL + '#item/:record_id', viewitem)
   .route(BASE_URL + 'item/:record_id', viewitem)
+  .route(BASE_URL + '#reviews', showreviews)
   .route(BASE_URL + 'reviews', showreviews)
+  .route(BASE_URL + '#reviews/:review_type', showreviews)
   .route(BASE_URL + 'reviews/:review_type', showreviews)
   ;
 </script>	
@@ -111,33 +115,32 @@ router
 </div>
 <div id="dark_overlay" onClick="$('#dark_overlay').hide(); hidemenu();"></div>
 <div id="top_menu">
-<ul style="list-style-type: none; margin: 0;
-padding: 0;">
-<li class="top_menuitem tadlblue" style="float: left; margin-right: 5px;">Home</li>
-<li class="top_menuitem red" style="float: left; margin-right: 5px;">Books</li>
-<li class="top_menuitem orange" style="float: left; margin-right: 5px;">Music</li>
-<li class="top_menuitem yellow" style="float: left; margin-right: 5px;">Video</li>
-<li class="top_menuitem green" style="float: left; margin-right: 5px;">Adults</li>
-<li class="top_menuitem blue"style="float: left; margin-right: 5px;">Youth</li>
-<li class="top_menuitem purple"style="float: left; margin-right: 5px;">Teen</li>
-</ul>    
+    <ul style="list-style-type: none; margin: 0; padding: 0;">
+    <li class="top_menuitem tadlblue" style="float: left; margin-right: 5px;">Home</li>
+    <li class="top_menuitem red" style="float: left; margin-right: 5px;">Books</li>
+    <li class="top_menuitem orange" style="float: left; margin-right: 5px;">Music</li>
+    <li class="top_menuitem yellow" style="float: left; margin-right: 5px;">Video</li>
+    <li class="top_menuitem green" style="float: left; margin-right: 5px;">Adults</li>
+    <li class="top_menuitem blue"style="float: left; margin-right: 5px;">Youth</li>
+    <li class="top_menuitem purple"style="float: left; margin-right: 5px;">Teen</li>
+    </ul>    
 </div>
-<div class="clearfix"></div>
 
+<div class="clearfix"></div>
 
 <div id="status-messages"></div>
 <div id="search-params"></div>
+
 <div id="container" style="overflow: auto; max-width: 1300px;">
-<div id="third_column"></div>
-<div id="first_column">
-<div id="first_column_content">
-</div>
-<div class="load_more">
-    <div id="loadmoretext"></div>
-</div>
-</div>
-<div id="second_column"></div>
-<div class="clearfix"></div>
+    <div id="third_column"></div>
+    <div id="first_column">
+        <div id="first_column_content"></div>
+        <div class="load_more">
+            <div id="loadmoretext"></div>
+        </div>
+    </div>
+    <div id="second_column"></div>
+    <div class="clearfix"></div>
 </div>
 
 
@@ -229,7 +232,6 @@ padding: 0;">
         <div id="{{node.item}}" style="display:none;"></div>
         <div id="{{node.item}}-loading"></div> 
         <div class="clearfix"></div>
-
         </div>
         </div>
     {{/nodes}}
@@ -244,13 +246,9 @@ padding: 0;">
         {{#if node.author}}
             <span class="author">{{node.author}}</span>
         {{/if}}
-        
-            <div class="summary">Review by: {{node.reviewer}}
-            </br>
-            
-            {{{node.body}}} </div>
-        
-        
+        <div class="summary">Review by: {{node.reviewer}}
+        </br>
+        {{{node.body}}} </div>
         <div id="showmore-{{node.record}}" class="viewmore">more details</div>
         </div>
         <div id="{{node.record}}" style="display:none;"></div>
@@ -308,10 +306,10 @@ padding: 0;">
     {{#nodes}}
         <div class="shadow result">
         <img class="fb_img pointer" src="{{node.image}}" onclick="unhide('{{node.nid}}')">
-        <h3 class="pointer" style="padding:0;margin:0;" onclick="unhide('{{node.nid}}')">{{{ node.title }}}</h3>
-        <span id="more{{ node.nid }}" class="viewmore pointer" onclick="unhide('{{node.nid}}')">View More</span>
-        <span id="{{ node.nid }}" style="display:none;">
-        {{{ node.body }}}
+        <h3 class="pointer" style="padding:0;margin:0;" onclick="unhide('{{node.nid}}')">{{{node.title}}}</h3>
+        <span id="more{{node.nid}}" class="viewmore pointer" onclick="unhide('{{node.nid}}')">View More</span>
+        <span id="{{node.nid}}" style="display:none;">
+        {{{node.body}}}
         </span>
         </div>
     {{/nodes}}
@@ -321,21 +319,15 @@ padding: 0;">
     <div class="shadow result" style="width: 275px; height: 301px;">
     <div style="width: 275px; height: 275px;">
     {{#each_upto nodes 4}}
-        
-     <img src="http://catalog.tadl.org/opac/extras/ac/jacket/large/r/{{ node.item }}" style="float:left; width:50%; height:50%; padding: 0px; margin: 0px;">
-     {{/each_upto}}
-     </div>
-        <div class="clear"></div>
-      {{#each_upto nodes 1}}  
-<span style="font-size:1.3em;"><a onclick="showitemlist({{node.termid}})">{{node.term}}</a></span><br>
-{{/each_upto}}
+        <img src="http://catalog.tadl.org/opac/extras/ac/jacket/large/r/{{node.item}}" style="float:left; width:50%; height:50%; padding: 0px; margin: 0px;">
+    {{/each_upto}}
     </div>
-    
+    <div class="clear"></div>
+    {{#each_upto nodes 1}}  
+        <span style="font-size:1.3em;"><a onclick="showitemlist({{node.termid}})">{{node.term}}</a></span><br>
+    {{/each_upto}}
+    </div>
 </script>
-
-
-
-
 
 <script id="shelf-template" type="text/template">
     <table>
