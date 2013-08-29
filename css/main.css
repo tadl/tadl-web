@@ -398,3 +398,63 @@ th {
 .blue { background-color:#00ADEE; }
 .purple { background-color:#800080; }
 .tadlblue { background-color:#004677; }
+
+#top_menu{
+display: none;
+  
+}
+
+.top_menuitem {
+    color:#fff;
+    font-size:1.5em;
+    height:45px;
+    width:12%;
+    margin:0 0 0 1px;
+    padding:10px 5px 0px 2px;
+    text-align:center;
+    border-bottom:1px solid #f0f2f5;
+    cursor:pointer;  
+}
+
+#first_column {
+width: 60%;
+float:left;
+height: 100%;
+display: inline-block;
+}
+#second_column {
+width: 40%;
+height: 100%;
+float:left;
+}
+
+#third_column {
+display: none;
+float:left;
+}
+
+
+
+
+@media screen and (min-width: 960px) {
+#top_menu {
+display: block;
+}
+}
+@media screen and (min-width: 1280px) {
+#third_column {
+display: inline;
+width: 26%;
+height: 100%;
+
+}
+
+#second_column {
+width: 24%;
+}
+#first_column {
+width: 50%;
+}
+
+}
+

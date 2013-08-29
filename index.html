@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="/">
+    <base href="/tadl-web/">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -23,7 +23,7 @@
 		}, false);
 	</script>
 	<script>
-    var BASE_URL = '/';
+    var BASE_URL = '/tadl-web/';
   	var router = new staterouter.Router();
   
 // Configure routes
@@ -43,7 +43,7 @@ router
 //  .route(BASE_URL + '#holds', showholds)
   .route(BASE_URL + 'checkout', showcheckouts)
 //  .route(BASE_URL + '#checkout', showcheckouts)
-  .route(BASE_URL + 'featured', showfeatured)
+  .route(BASE_URL + 'featured', showfeatureditembox)
 //  .route(BASE_URL + '#featured', showfeatured)
   .route(BASE_URL + 'featurednews', showfeaturednews)
 //  .route(BASE_URL + '#featurednews', showfeaturednews)
@@ -101,16 +101,41 @@ router
 <div id="menu">
 <div class="menuitem red" onclick="showfeaturednews();">News</div>
 <div class="menuitem orange" onclick="showevents();">Events</div>
-<div class="menuitem yellow" onclick="showfeatured();">Featured</div>
+<div class="menuitem yellow" onclick="History.pushState({action:'showfeatureditembox'}, 'Featured Items', 'featured'); ">Featured</div>
 <div class="menuitem green" onclick="showlocations();">Locations</div>
 <div class="menuitem blue" onclick="facebookfeed();">Facebook</div>
 </div>
 <div id="dark_overlay" onClick="$('#dark_overlay').hide(); hidemenu();"></div>
+<div id="top_menu">
+<ul style="list-style-type: none; margin: 0;
+padding: 0;">
+<li class="top_menuitem tadlblue" style="float: left; margin-right: 5px;">Home</li>
+<li class="top_menuitem red" style="float: left; margin-right: 5px;">Books</li>
+<li class="top_menuitem orange" style="float: left; margin-right: 5px;">Music</li>
+<li class="top_menuitem yellow" style="float: left; margin-right: 5px;">Video</li>
+<li class="top_menuitem green" style="float: left; margin-right: 5px;">Adults</li>
+<li class="top_menuitem blue"style="float: left; margin-right: 5px;">Youth</li>
+<li class="top_menuitem purple"style="float: left; margin-right: 5px;">Teen</li>
+</ul>    
+</div>
+<div class="clearfix"></div>
 
 
 <div id="status-messages"></div>
 <div id="search-params"></div>
-<div id="results"></div>
+<div id="container" style="overflow: auto; max-width: 1300px;">
+<div id="third_column"></div>
+<div id="first_column">
+<div id="first_column_content">
+</div>
+<div class="load_more">
+    <div id="loadmoretext"></div>
+</div>
+</div>
+<div id="second_column"></div>
+<div class="clearfix"></div>
+</div>
+
 
 <script id="featured-template" type="text/template">
     {{#nodes}}
@@ -289,7 +314,7 @@ router
 </script>
 
 <script id="showfeatureditembox-template" type="text/template">
-    <div class="shadow result" style="width: 275px; height: 301px; float: left;">
+    <div class="shadow result" style="width: 275px; height: 301px;">
     <div style="width: 275px; height: 275px;">
     {{#each_upto nodes 4}}
         
@@ -298,7 +323,7 @@ router
      </div>
         <div class="clear"></div>
       {{#each_upto nodes 1}}  
-<span style="font-size:1.3em;">{{node.term}}</span><br>
+<span style="font-size:1.3em;"><a onclick="showitemlist({{node.termid}})">{{node.term}}</a></span><br>
 {{/each_upto}}
     </div>
     
