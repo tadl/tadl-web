@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="/tadl-web/">
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -23,30 +23,30 @@
 		}, false);
 	</script>
 	<script>
-    var BASE_URL = '/tadl-web/';
+    var BASE_URL = '/';
   	var router = new staterouter.Router();
   
 // Configure routes
 router
   .route(BASE_URL, showmain)
-//  .route(BASE_URL + '#events', showevents)
+  .route(BASE_URL + '#events', showevents)
   .route(BASE_URL + 'events', showevents)
-//  .route(BASE_URL + '#facebook', facebookfeed)
+  .route(BASE_URL + '#facebook', facebookfeed)
   .route(BASE_URL + 'facebook', facebookfeed)
+  .route(BASE_URL + '#locations', showlocations)
   .route(BASE_URL + 'locations', showlocations)
-//  .route(BASE_URL + '#locations', showlocations)
+  .route(BASE_URL + '#card', showcard)
   .route(BASE_URL + 'card', showcard)
-//  .route(BASE_URL + '#card', showcard)
+  .route(BASE_URL + '#pickup', showpickups)
   .route(BASE_URL + 'pickup', showpickups)
-//  .route(BASE_URL + '#pickup', showpickups)
+  .route(BASE_URL + '#holds', showholds)
   .route(BASE_URL + 'holds', showholds)
-//  .route(BASE_URL + '#holds', showholds)
+  .route(BASE_URL + '#checkout', showcheckouts)
   .route(BASE_URL + 'checkout', showcheckouts)
-//  .route(BASE_URL + '#checkout', showcheckouts)
+  .route(BASE_URL + '#featured', showfeatured)
   .route(BASE_URL + 'featured', showfeatureditembox)
-//  .route(BASE_URL + '#featured', showfeatured)
+  .route(BASE_URL + '#featurednews', showfeaturednews)
   .route(BASE_URL + 'featurednews', showfeaturednews)
-//  .route(BASE_URL + '#featurednews', showfeaturednews)
   .route(BASE_URL + 'search/:query/:mt/:avail/:location', getsearch)
   .route(BASE_URL + 'item/:record_id', viewitem)
   .route(BASE_URL + 'reviews', showreviews)
