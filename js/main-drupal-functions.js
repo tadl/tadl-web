@@ -47,7 +47,7 @@ function showfeatured() {
             var template = Handlebars.compile($('#featured-template').html());
             var info = template(data);
             $('#featured').html(info);
-            $('#featured').imagesLoaded().always( function( instance ) { 
+            $('#featured').imagesLoaded().always(function(instance) { 
                 $('.load_more').hide();
                 $('.image_carousel').show();
             });
@@ -115,7 +115,7 @@ function showreviews(review_type) {
     cleanhouse();
     var action = {action:"showreviews"}
     var review_type = review_type;
-    if(review_type != undefined){
+    if(review_type != undefined) {
         var newstate = 'reviews/'+review_type; 
     } else {
         var newstate = 'reviews/all'; 

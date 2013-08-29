@@ -108,7 +108,7 @@ function showmore(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id);
     if (e.style.display === 'none') {
-        if(!$.trim($('#'+ record_id).html()).length) {
+        if (!$.trim($('#'+ record_id).html()).length) {
             $('#'+ record_id +'-loading').html(loadingmoreText).trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
@@ -157,7 +157,7 @@ function showshelf(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id +'shelf');
     if (e.style.display === 'none') {
-        if(!$.trim($('#'+ record_id +'shelf').html()).length) {
+        if (!$.trim($('#'+ record_id +'shelf').html()).length) {
             $('#'+ record_id +'-loading').html(loadingmoreText).trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
