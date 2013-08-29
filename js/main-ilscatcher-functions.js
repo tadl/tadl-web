@@ -10,17 +10,17 @@ function loadmore() {
     $.get(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount + "&avail=" + available + "&loc=" + loc, function(data) {
         var results = data.message
         if (state.data.action === "getsearch" && state.data.query === searchquery && state.data.mt === mediatype && state.data.avail === available && state.data.location === loc)  {
-        if (results != "no results") {
-            var template = Handlebars.compile($('#results-template').html());
-            var info = template(data);
-            $('#first_column_content').append(info).promise().done(function() {
-                $('#loadmoretext').empty().append(loadmoreText);
-                $('#loadmoretext').trigger("create");
-                $("#login_form").slideUp("fast");
-            });
-        } else {
-            $('#loadmoretext').html("No Further Results");
-        }
+            if (results != "no results") {
+                var template = Handlebars.compile($('#results-template').html());
+                var info = template(data);
+                $('#first_column_content').append(info).promise().done(function() {
+                    $('#loadmoretext').empty().append(loadmoreText);
+                    $('#loadmoretext').trigger("create");
+                    $("#login_form").slideUp("fast");
+                });
+            } else {
+                $('#loadmoretext').html("No Further Results");
+            }
         }
     });
 }
@@ -42,9 +42,7 @@ function getsearch(query, mt, avail, location) {
     var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available+'/'+loc; 
     var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc, state:newstate}
     History.pushState(action, psTitle + "Search", newstate);
-    
     getResults();
-    
 }
 
 
@@ -66,11 +64,10 @@ function getResults() {
         var availablemsg = "";
     }
     var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available+'/'+loc; 
-    if (linked_search != "true"){
-    var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc, state:newstate}
-    History.pushState(action, psTitle + "Search", newstate);
+    if (linked_search != "true") {
+        var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc, state:newstate}
+        History.pushState(action, psTitle + "Search", newstate);
     }
-     
     $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
         var results = data.message;
         state = History.getState();
@@ -88,7 +85,7 @@ function getResults() {
                 $('#first_column_content_content').replaceWith("No Results");
                 $('.load_more').hide();
             }
-      } 
+        } 
     });
 }
 
@@ -104,20 +101,22 @@ function logged_in() {
 function logout() {
     $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
     window.localStorage.clear();
-    showmain();    
+    home(); //probably something else here
 }
 
 function showmore(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id);
     if (e.style.display === 'none') {
-        if( !$.trim( $('#'+ record_id).html() ).length ) {
+        if(!$.trim($('#'+ record_id).html()).length) {
             $('#'+ record_id +'-loading').html(loadingmoreText).trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
                 var template = Handlebars.compile($('#more_details-template').html());
                 var info = template(data);
-                $('#'+ record_id).html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+                $('#'+ record_id).html(info).promise().done(function() {
+                    $('#'+ record_id +'-loading').empty();
+                });
                 $('#'+ record_id).css('display', 'block');
                 $('#showmore-' + record_id).css('display', 'none');
             });
@@ -138,12 +137,15 @@ function viewitem(record_id) {
         var template = Handlebars.compile($('#result-details-template').html());
         var info = template(data);
         if (state.data.action === "viewitem") {
-            $('#results').html(info).promise().done(function() {  $('#loadmoretext').empty();});
+            $('#results').html(info).promise().done(function() {
+                $('#loadmoretext').empty();
+            });
             $('#'+ record_id).css('display', 'block');
         }
     });
 }
 
+// not sure what this is for. It might be something I left half-done and has been replaced
 function loaditem(record_id) {    
     var record_id = record_id;
     var action = {action:"viewitem", record_id:record_id}
@@ -155,13 +157,15 @@ function showshelf(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id +'shelf');
     if (e.style.display === 'none') {
-        if( !$.trim( $('#'+ record_id +'shelf').html() ).length ) {
+        if(!$.trim($('#'+ record_id +'shelf').html()).length) {
             $('#'+ record_id +'-loading').html(loadingmoreText).trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
                 var template = Handlebars.compile($('#shelf-template').html());
                 var info = template(data);
-                $('#'+ record_id +'shelf').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+                $('#'+ record_id +'shelf').html(info).promise().done(function() {
+                    $('#'+ record_id +'-loading').empty();
+                });
                 $('#'+ record_id +'shelf').css('display', 'block');
             });
         } else {
@@ -286,9 +290,9 @@ function showcheckouts() {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
         if (state.data.action === "showcheckouts") { 
-        $('#results').html(info);
-        $('.load_more').hide();
-         }
+            $('#results').html(info);
+            $('.load_more').hide();
+        }
     });
 }
 
@@ -300,7 +304,11 @@ function pre_cancelhold(element, hold_id) {
     $(element).css('color', 'red');
     $(element).html(confirm_text);
     $(element).prop("onclick", null);
-    $(element).on("click", function(event) {$(this).off('click'); $(this).html(canceling_text); cancelhold(hold_id);});
+    $(element).on("click", function(event) {
+        $(this).off('click');
+        $(this).html(canceling_text);
+        cancelhold(hold_id);
+    });
 }
 
 function cancelhold(hold_id) {
@@ -324,10 +332,10 @@ function showholds() {
     $.getJSON(ILSCATCHER_BASE + '/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
-       $('#results').show();
-       if (state.data.action === "showholds") {
-       $('#results').html(info);
-        $('.load_more').hide(); 
+        $('#results').show();
+        if (state.data.action === "showholds") {
+            $('#results').html(info);
+            $('.load_more').hide(); 
         }
     });   
 }

@@ -30,7 +30,6 @@ function openForm() {
         login_and_fetch_dash();
     } else {
         $("#login_form").slideUp("fast");
-        
     }
 }
 
@@ -60,10 +59,9 @@ $.fn.doLinks = function(){
     });
 }
 
-String.prototype.trunc = 
-    function(n){
-        return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
-    }
+String.prototype.trunc = function(n) {
+    return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
+}
 
 function img_check(img) {
     var img = img;
