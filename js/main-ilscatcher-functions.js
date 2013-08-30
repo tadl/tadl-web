@@ -76,13 +76,13 @@ function getResults() {
             if (results != "no results") {
                 var template = Handlebars.compile($('#results-template').html());
                 var info = template(data);
-                $('#first_column_content_content').replaceWith(info);
+                $('#first_column_content').replaceWith(info);
                 $('#loadmoretext').empty().append(loadmoreText);
                 $('#loadmoretext').trigger("create");
                 var mediatypedecode = decodeURIComponent(mediatype);
                 $('#search-params').html('Searching for '+ searchquery +' in ' + mediatypedecode + ' at ' + loctext + ' ' + availablemsg + '. <a onclick="openSearch_options()">options...</a>');
             } else {
-                $('#first_column_content_content').replaceWith("No Results");
+                $('#first_column_content').replaceWith("No Results");
                 $('.load_more').hide();
             }
         } 
